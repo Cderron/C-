@@ -1,65 +1,59 @@
 #include <stdio.h>
 
-#define NUM_TEMPERATURES 5
-
-
-float get_temperature() {
-    float temp;
-    
-    while (1) {
-        printf("Enter a temperature in Fahrenheit (-30 to 130): ");
-        scanf("%f", &temp);
-        
-        if (temp >= -30 && temp <= 130) {
-            return temp;
-        } else {
-            printf("Temperature out of range. Please enter a value between -30 and 130.\n");
-        }
-    }
+int is_valid_temperature(int temp) {
+    return (temp >= -30 && temp <= 130);  // Check if the temperature is in the valid range
 }
 
 int main() {
-    float temperatures[NUM_TEMPERATURES];
-    int is_warmer = 1, is_cooler = 1;
+    int temperatures[5];  // Array to store 5 temperatures
+    int i;
     
-  
-    for (int i = 0; i < NUM_TEMPERATURES; i++) {
-        temperatures[i] = get_temperature();
+    // Get 5 valid temperatures from the user
+    for (i = 0; i < 5; i++) {
+        while (1) {  
+            printf("Enter temperature %d (between -30 and 130): ", i + 1);
+            scanf("%d", &temperatures[i]);
+            
+           
+            if (is_valid_temperature(temperatures[i])) {
+                break; 
+            } else {
+                printf("Temperature out of range. Please enter a value between -30 and 130.\n");
+            }
+        }
     }
+    
+    // Checking the temp.
+    int getting_warmer = 1, getting_cooler = 1;
 
-  
-    for (int i = 1; i < NUM_TEMPERATURES; i++) {
+    for (i = 1; i < 5; i++) {
         if (temperatures[i] < temperatures[i - 1]) {
-            is_warmer = 0;
+            getting_warmer = 0;  
         }
         if (temperatures[i] > temperatures[i - 1]) {
-            is_cooler = 0;
+            getting_cooler = 0;  
         }
     }
-
-
-    if (is_warmer) {
-        printf("Getting warmer");
-    } else if (is_cooler) {
-        printf("Getting cooler");
+    
+    if (getting_warmer) {
+        printf("\nGetting warmer");
+    } else if (getting_cooler) {
+        printf("\nGetting cooler");
     } else {
-        printf("It's a mixed bag");
-    }
-
-    
-    printf("\nTemperatures entered: ");
-    for (int i = 0; i < NUM_TEMPERATURES; i++) {
-        printf("%.2f ", temperatures[i]);
+        printf("\nIt's a mixed bag");
     }
     
+    // Temperatures
+    printf("\n5-Day Temperature: ");
+    for (i = 0; i < 5; i++) {
+        printf("%d ", temperatures[i]);
+    }
 
-    float sum = 0;
-    for (int i = 0; i < NUM_TEMPERATURES; i++) {
+    int sum = 0;
+    for (i = 0; i < 5; i++) {
         sum += temperatures[i];
     }
-
-    float average_temp = sum / NUM_TEMPERATURES;
-    printf("\nAverage temperature: %.2f°F\n", "degrees");
-
+    printf("\nAverage temperature: %.2f°F\n", sum / 5.0);
+    
     return 0;
 }
